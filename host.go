@@ -341,7 +341,7 @@ func (h *Host) InitCommands(c *chat.Commands) {
 			}
 
 			var whois string
-			switch room.IsOp(msg.From().(chat.Member)) {
+			switch room.IsOp(msg.From()) {
 			case true:
 				whois = whoisAdmin(target)
 			case false:
@@ -377,7 +377,7 @@ func (h *Host) InitCommands(c *chat.Commands) {
 		PrefixHelp: "USER [DURATION]",
 		Help:       "Set USER as admin.",
 		Handler: func(room *chat.Room, msg message.CommandMsg) error {
-			if !room.IsOp(msg.From().(chat.Member)) {
+			if !room.IsOp(msg.From()) {
 				return errors.New("must be op")
 			}
 
@@ -423,7 +423,7 @@ func (h *Host) InitCommands(c *chat.Commands) {
 		Help:       "Ban USER from the server.",
 		Handler: func(room *chat.Room, msg message.CommandMsg) error {
 			// TODO: Would be nice to specify what to ban. Key? Ip? etc.
-			if !room.IsOp(msg.From().(chat.Member)) {
+			if !room.IsOp(msg.From()) {
 				return errors.New("must be op")
 			}
 
@@ -463,7 +463,7 @@ func (h *Host) InitCommands(c *chat.Commands) {
 		PrefixHelp: "USER",
 		Help:       "Kick USER from the server.",
 		Handler: func(room *chat.Room, msg message.CommandMsg) error {
-			if !room.IsOp(msg.From().(chat.Member)) {
+			if !room.IsOp(msg.From()) {
 				return errors.New("must be op")
 			}
 
@@ -501,7 +501,7 @@ func (h *Host) InitCommands(c *chat.Commands) {
 				room.Send(message.NewSystemMsg(motd, user))
 				return nil
 			}
-			if !room.IsOp(user.(chat.Member)) {
+			if !room.IsOp(user) {
 				return errors.New("must be OP to modify the MOTD")
 			}
 
